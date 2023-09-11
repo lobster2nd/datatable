@@ -6,29 +6,28 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    <link type="text/css" href="{% static 'css/styles.css' %}" rel="stylesheet" />
+
 
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.0.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <script>
 $(document).ready(function() {
-    $('#data-table').DataTable({
+    var dataTable = new DataTable('#data-table', {
         ajax: {
             url: '{% url "studies_list" %}',
             type: 'GET',
             data: function(d) {
-                d.start = d.start || 0; // Начальная позиция записей
-                d.length = d.length || 10; // Количество записей на странице
-                d.search = d.search || {}; // Параметры фильтрации
-                d.search.value = d.search.value || ''; // Значение фильтра
+                d.start = d.start || 0;
+                d.length = d.length || 10;
+                d.search = d.search || {};
 
                 return d;
             },
             dataSrc: 'data',
         },
         serverSide: true,
-        searching: true, // Server side searching enabled
+        searching: true,
         ordering: false,
         columns: [
             { data: 'id' },
@@ -49,25 +48,24 @@ $(document).ready(function() {
         ],
     });
 });
+
     </script>
+    <link type="text/css" href="{% static 'css/styles.css' %}" rel="stylesheet" />
 </head>
 <body>
     <div class="container">
-        <div class="row">
     <table id="data-table" class="table table-striped cell-border display compact" style="width:100%">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>ФИО пациента</th>
-                <th>Дата рождения</th>
-                <th>UID исследования</th>
-                <th>Дата исследования</th>
-                <th>Название исследования</th>
-                <th>Код исследования</th>
-            </tr>
-        </thead>
-    </table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>ФИО пациента</th>
+            <th>Дата рождения</th>
+            <th>UID исследования</th>
+            <th>Дата исследования</th>
+            <th>Название исследования</th>
+            <th>Код исследования</th>
+    </thead>
+</table>
         </div>
-    </div>
 </body>
 </html>
