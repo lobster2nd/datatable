@@ -23,6 +23,14 @@ $(document).ready(function() {
                 var selectedValue = $('#sort-select').val();
                 d.order_by = selectedValue;
 
+                // Добавляем значение поля в запрос
+                var searchValue = $('#search-input').val();
+                var searchType = $('#search-type-select').val();
+                if (searchValue && searchType) {
+                    d.search.value = searchValue;
+                    d.search.type = searchType;
+                }
+
                 return d;
             },
             dataSrc: 'data',
@@ -48,8 +56,25 @@ $(document).ready(function() {
         ],
     });
 
+    // Обработчик события изменения значения типа поиска
+    $('#search-type-select').on('change', function() {
+        var selectedType = $(this).val();
+
+        // Очистить поле ввода и удалить атрибуты типа даты
+        $('#search-input').val('').removeAttr('type', 'date');
+
+        // Если выбран тип даты, преобразовать поле ввода в тип даты
+        if (selectedType === 'patient_birthdate' || selectedType === 'study_date') {
+            $('#search-input').attr('type', 'date');
+        }
+    });
+
     // Обработчик события изменения значения сортировки
     $('#sort-select').on('change', function() {
+        dataTable.ajax.reload();
+    });
+
+    $('#search-button').on('click', function() {
         dataTable.ajax.reload();
     });
 });
@@ -58,18 +83,48 @@ $(document).ready(function() {
 </head>
 <body>
     <div class="container">
-        <div class="form-group">
-            <label for="sort-select">Сортировка:</label>
-            <select id="sort-select" class="form-control form-control-sm w-auto">
-                <option value="">Нет сортировки</option>
-                <option value="id">ID</option>
-                <option value="patient_fio">ФИО пациента</option>
-                <option value="patient_birthdate">Дата рождения</option>
-                <option value="study_uid">UID исследования</option>
-                <option value="study_date">Дата исследования</option>
-                <option value="study_name">Название исследования</option>
-                <option value="study_short_code">Код исследования</option>
-            </select>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="sort-select">Сортировка:</label>
+                    <select id="sort-select" class="form-control form-control-sm">
+                        <option value="">Нет сортировки</option>
+                        <option value="id">ID</option>
+                        <option value="patient_fio">ФИО пациента</option>
+                        <option value="patient_birthdate">Дата рождения</option>
+                        <option value="study_uid">UID исследования</option>
+                        <option value="study_date">Дата исследования</option>
+                        <option value="study_name">Название исследования</option>
+                        <option value="study_short_code">Код исследования</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="search-type-select">Тип поиска:</label>
+                    <select id="search-type-select" class="form-control form-control-sm">
+                        <option value="">Выберите тип поиска</option>
+                        <option value="id">ID</option>
+                        <option value="patient_fio">ФИО пациента</option>
+                        <option value="patient_birthdate">Дата рождения</option>
+                         <option value="study_uid">UID исследования</option>
+                        <option value="study_date">Дата исследования</option>
+                        <option value="study_name">Название исследования</option>
+                        <option value="study_short_code">Код исследования</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="search-input">Поиск:</label>
+                    <input id="search-input" class="form-control form-control-sm" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-md-4">
+                <button id="search-button" class="btn btn-primary">Найти</button>
+            </div>
         </div>
 
         <table id="data-table" class="table table-striped cell-border display compact" style="width:100%">
@@ -82,6 +137,7 @@ $(document).ready(function() {
                     <th data-orderable="true">Дата исследования</th>
                     <th data-orderable="true">Название исследования</th>
                     <th data-orderable>Код исследования</th>
+                </tr>
             </thead>
         </table>
     </div>

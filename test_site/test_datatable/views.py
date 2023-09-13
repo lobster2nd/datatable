@@ -9,14 +9,14 @@ from .models import Studies
 
 
 def studies_list(request):
-    start = int(request.GET.get('start', 0))    # pagination parameters
+    start = int(request.GET.get('start', 0))  # pagination parameters
     length = int(request.GET.get('length', 10))
 
     search_value = request.GET.get('search[value]', '')  # filtration params
+    search_type = request.GET.get('search[type]')  # search type
 
     # form required queryset
-    studies = Studies.objects.select_related(
-        'study_modality').prefetch_related('study_modality').values(
+    studies = Studies.objects.select_related('study_modality').prefetch_related('study_modality').values(
         'id',
         'patient_fio',
         'patient_birthdate',
@@ -27,10 +27,19 @@ def studies_list(request):
     )
 
     # filtration
-    if search_value:
-        studies = studies.filter(
-            Q(patient_fio__icontains=search_value) | Q(
-                study_uid__icontains=search_value))
+    if search_value and search_type:
+        if search_type == 'patient_fio':
+            studies = studies.filter(patient_fio__icontains=search_value)
+        elif search_type == 'patient_birthdate':
+            studies = studies.filter(patient_birthdate__icontains=search_value)
+        elif search_type == 'study_date':
+            studies = studies.filter(study_date__icontains=search_value)
+        elif search_type == 'study_uid':
+            studies = studies.filter(study_uid__icontains=search_value)
+        elif search_type == 'study_modality__name':
+            studies = studies.filter(study_modality__name__icontains=search_value)
+        elif search_type == 'study_modality':
+            studies = studies.filter(study_modality__short_code__icontains=search_value)
 
     # ordering
     order_by = request.GET.get('order_by')
@@ -47,7 +56,7 @@ def studies_list(request):
             studies = studies.order_by('-study_date')
         elif order_by == 'study_modality__name':
             studies = studies.order_by('-study_modality__name')
-        elif order_by == 'study_date':
+        elif order_by == 'study_modality__short_code':
             studies = studies.order_by('study_modality__short_code')
 
     # pagination
@@ -77,6 +86,7 @@ def studies_list(request):
     }
 
     return JsonResponse(result)
+
 
 
 def view_studies(request):
