@@ -32,6 +32,24 @@ def studies_list(request):
             Q(patient_fio__icontains=search_value) | Q(
                 study_uid__icontains=search_value))
 
+    # ordering
+    order_by = request.GET.get('order_by')
+    if order_by:
+        if order_by == 'id':
+            studies = studies.order_by('id')
+        elif order_by == 'patient_fio':
+            studies = studies.order_by('patient_fio')
+        elif order_by == 'patient_birthdate':
+            studies = studies.order_by('patient_birthdate')
+        elif order_by == 'study_uid':
+            studies = studies.order_by('study_uid')
+        elif order_by == 'study_date':
+            studies = studies.order_by('-study_date')
+        elif order_by == 'study_modality__name':
+            studies = studies.order_by('-study_modality__name')
+        elif order_by == 'study_date':
+            studies = studies.order_by('study_modality__short_code')
+
     # pagination
     studies = studies[start:start + length]
 
