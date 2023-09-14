@@ -9,52 +9,52 @@
 	<script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <script>
-$(document).ready(function() {
-    var dataTable = new DataTable('#data-table', {
-        ajax: {
-            url: '{% url "studies_list" %}',
-            type: 'GET',
-            data: function(d) {
-                d.start = d.start || 0;
-                d.length = d.length || 10;
-                d.search = d.search || {};
+        $(document).ready(function() {
+            var dataTable = new DataTable('#data-table', {
+                ajax: {
+                    url: '{% url "studies_list" %}',
+                    type: 'GET',
+                    data: function(d) {
+                            d.start = d.start || 0;
+                            d.length = d.length || 10;
+                            d.search = d.search || {};
 
-                // Добавляем значение сортировки в запрос
-                var selectedValue = $('#sort-select').val();
-                d.order_by = selectedValue;
+                            // Добавляем значение сортировки в запрос
+                            var selectedValue = $('#sort-select').val();
+                            d.order_by = selectedValue;
 
-                // Добавляем значение поля в запрос
-                var searchValue = $('#search-input').val();
-                var searchType = $('#search-type-select').val();
-                if (searchValue && searchType) {
-                    d.search.value = searchValue;
-                    d.search.type = searchType;
-                }
+                            // Добавляем значение поля в запрос
+                            var searchValue = $('#search-input').val();
+                            var searchType = $('#search-type-select').val();
+                            if (searchValue && searchType) {
+                                d.search.value = searchValue;
+                                d.search.type = searchType;
+                            }
 
-                return d;
+                            return d;
+                    },
+                dataSrc: 'data',
             },
-            dataSrc: 'data',
-        },
-        serverSide: true,
-        searching: true,
-        ordering: false,
-        columns: [
-            { data: 'id' },
-            { data: 'patient_fio' },
-            { data: 'patient_birthdate' },
-            { data: 'study_uid' },
-            {
-                data: 'study_date',
-                render: function(data) {
-                    var date = new Date(data);
-                    var formattedDate = date.toLocaleString();
-                    return formattedDate;
-                }
-            },
-            { data: 'study_name' },
-            { data: 'study_short_code' },
-        ],
-    });
+            serverSide: true,
+            searching: true,
+            ordering: false,
+            columns: [
+                { data: 'id' },
+                { data: 'patient_fio' },
+                { data: 'patient_birthdate' },
+                { data: 'study_uid' },
+                {
+                    data: 'study_date',
+                    render: function(data) {
+                        var date = new Date(data);
+                        var formattedDate = date.toLocaleString();
+                        return formattedDate;
+                    }
+                },
+                { data: 'study_name' },
+                { data: 'study_short_code' },
+            ],
+        });
 
     // Обработчик события изменения значения типа поиска
     $('#search-type-select').on('change', function() {
@@ -69,15 +69,15 @@ $(document).ready(function() {
         }
     });
 
-    // Обработчик события изменения значения сортировки
-    $('#sort-select').on('change', function() {
-        dataTable.ajax.reload();
-    });
+        // Обработчик события изменения значения сортировки
+        $('#sort-select').on('change', function() {
+            dataTable.ajax.reload();
+        });
 
-    $('#search-button').on('click', function() {
-        dataTable.ajax.reload();
+        $('#search-button').on('click', function() {
+            dataTable.ajax.reload();
+        });
     });
-});
     </script>
     <link type="text/css" href="{% static 'css/styles.css' %}" rel="stylesheet" />
 </head>
@@ -136,7 +136,7 @@ $(document).ready(function() {
                     <th data-orderable="true">UID исследования</th>
                     <th data-orderable="true">Дата исследования</th>
                     <th data-orderable="true">Название исследования</th>
-                    <th data-orderable>Код исследования</th>
+                    <th data-orderable="true">Код исследования</th>
                 </tr>
             </thead>
         </table>
