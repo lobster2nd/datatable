@@ -10,7 +10,10 @@
 
 ## Стек технологий  
 
-<img src="https://img.shields.io/badge/Python - black?style=for-the-badge&logo=Python&logoColor=blue"/> <img src="https://img.shields.io/badge/Django - black?style=for-the-badge&logo=Django&logoColor=white"/> <img src="https://img.shields.io/badge/jQuery - black?style=for-the-badge"/> <img src="https://img.shields.io/badge/HTML - black?style=for-the-badge&logo=sqlite&logoColor=blue"/>
+![Static Badge](https://img.shields.io/badge/python-white?style=for-the-badge&logo=python&logoColor=%233776AB&labelColor=%23ebe3ce&color=%233776AB)
+  ![Static Badge](https://img.shields.io/badge/Django-white?style=for-the-badge&logo=Django&logoColor=%23092E20&labelColor=%23ebe3ce&color=%23092E20) ![Static Badge](https://img.shields.io/badge/html5-white?style=for-the-badge&logo=html5&logoColor=%23E34F26&labelColor=%23ebe3ce&color=%23E34F26) ![Static Badge](https://img.shields.io/badge/css3-white?style=for-the-badge&logo=css3&logoColor=%231572B6&labelColor=%23ebe3ce&color=%231572B6) ![Static Badge](https://img.shields.io/badge/jquery-white?style=for-the-badge&logo=jquery&logoColor=%230769AD&labelColor=%23ebe3ce&color=%230769AD)
+
+
 
 ## Установка проекта локально (Linux)  
 + Склонировать репозиторий и перейти в него в командной строке:  
